@@ -24,7 +24,7 @@ When added as a dependency, the default behavior of this library is to send the 
 Agent, expected to be reachable via `http://localhost:8090/v1/trace`.  
 
 Other configuration is determined by the `spring-cloud-sleuth-zipkin` and 
-`spring-cloud-sleuth` properties.  See [SignalFx Tracing Examples: Sleuth 1.x]()
+`spring-cloud-sleuth` properties.  See [SignalFx Tracing Examples: Sleuth 2.x]()
 for recommended configuration. 
 
 ### Adding this library as a dependency
