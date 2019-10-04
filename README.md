@@ -4,16 +4,18 @@ Zipkin formatted traces to the SignalFx Smart Agent or Smart Gateway.
 
 ## About
 
-Spring Cloud's `spring-cloud-sleuth-zipkin` is an extension used to send Zipkin 
-formatted spans/traces to a Zipkin server. SignalFx Smart Agent and SignalFx 
-Smart Gateway can both accept Zipkin formatted spans. 
+Spring Cloud's [spring-cloud-sleuth-zipkin](https://github.com/spring-cloud/spring-cloud-sleuth/tree/1.3.x#sleuth-with-zipkin-via-http) 
+is an extension used to send Zipkin formatted spans/traces to a Zipkin server. 
+SignalFx Smart Agent and SignalFx Smart Gateway can both accept Zipkin 
+formatted spans. 
 
-However, the `spring-cloud-sleuth-zipkin` library is only able to configure a 
-base url and has the Zipkin server endpoint, `/api/v2/spans`, hardcoded.  The
-SignalFx Smart Gatweay and SignalFx Smart Agent both listen the `/v1/trace` 
+However, the `spring-cloud-sleuth-zipkin` library is written to configure a 
+base url. The Zipkin server endpoint, `/api/v2/spans`, is hardcoded and appended
+to the base url. (See [source](https://github.com/spring-cloud/spring-cloud-sleuth/blob/1.3.x/spring-cloud-sleuth-zipkin/src/main/java/org/springframework/cloud/sleuth/zipkin2/sender/RestTemplateSender.java#L37))  
+The SignalFx Smart Gatweay and SignalFx Smart Agent both listen the `/v1/trace` 
 endpoint.
 
-This library is an extension to `spring-cloud-sleuth-zipkin` and will only 
+This library is an extension to `spring-cloud-sleuth-zipkin` to 
 modify the behavior of that library by changing the URI endpoint. 
 
 ## Configuration
