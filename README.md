@@ -18,14 +18,30 @@ modify the behavior of that library by changing the URI endpoint.
 
 ## Configuration
 
-### Adding this library as a dependency
-
-The default behavior of this library is to send the traces to the SignalFx Smart
+When added as a dependency, the default behavior of this library is to send the traces to the SignalFx Smart
 Agent, expected to be reachable via `http://localhost:8090/v1/trace`.  
 
 Other configuration is determined by the `spring-cloud-sleuth-zipkin` and 
 `spring-cloud-sleuth` properties.  See [SignalFx Tracing Examples: Sleuth 1.x]()
 for recommended configuration. 
+
+### Adding this library as a dependency
+
+#### Maven
+
+```xml
+<dependency>
+    <groupId>com.signalfx.public</groupId>
+    <artifactId>signalfx-sleuth-zipkin-adapter</artifactId>
+    <version>1.0.1-RELEASE</version>
+</dependency>
+```
+
+#### Gradle
+
+```gradle
+classpath 'com.signalfx.public:signalfx-sleuth-zipkin-adapter'
+```
 
 ## Debugging
 
