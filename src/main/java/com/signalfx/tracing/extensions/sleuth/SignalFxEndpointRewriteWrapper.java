@@ -12,35 +12,35 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class SignalFxEndpointRewriteWrapper extends HttpRequestWrapper {
 
     private static Logger log = LoggerFactory.getLogger(SignalFxEndpointRewriteWrapper.class);
-    
+
     public SignalFxEndpointRewriteWrapper(HttpRequest request) {
-	super(request);
+        super(request);
     }
 
     @Override
     public URI getURI() {
-	URI unmodifiedUri = super.getURI();
-	if(!isZipkinUri(unmodifiedUri))
-	    return unmodifiedUri;
+        URI unmodifiedUri = super.getURI();
+        if(!isZipkinUri(unmodifiedUri))
+            return unmodifiedUri;
 
-	URI modifiedUri = replaceZipkinPathWithSignalFxPath(unmodifiedUri);
-	log.debug("Overriding Zipkin endpoint {} with {}", unmodifiedUri.toString(), modifiedUri.toString());
-	return modifiedUri;
+        URI modifiedUri = replaceZipkinPathWithSignalFxPath(unmodifiedUri);
+        log.debug("Overriding Zipkin endpoint {} with {}", unmodifiedUri.toString(), modifiedUri.toString());
+        return modifiedUri;
 
     }
 
     protected URI replaceZipkinPathWithSignalFxPath(URI zipkinPathToBeReplaced) {
-	try {
-	    UriComponentsBuilder modifiedUri = UriComponentsBuilder.fromUri(zipkinPathToBeReplaced);
-	    modifiedUri.replacePath("v1/trace");
+        try {
+            UriComponentsBuilder modifiedUri = UriComponentsBuilder.fromUri(zipkinPathToBeReplaced);
+            modifiedUri.replacePath("v1/trace");
 
-	    return new URI(modifiedUri.toUriString());
-	} catch (URISyntaxException e) {
-	    throw new RuntimeException(e);
-	}
+            return new URI(modifiedUri.toUriString());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected boolean isZipkinUri(URI uri) {
-	return uri.getPath().endsWith("api/v2/spans");
+        return uri.getPath().endsWith("api/v2/spans");
     }
 }

@@ -24,14 +24,14 @@ import org.springframework.web.client.RestTemplate;
 public class SignalFxZipkinAutoConfiguration {
 
     Logger log = LoggerFactory.getLogger(SignalFxZipkinAutoConfiguration.class);
-    
+
 
     @Bean ZipkinRestTemplateCustomizer overrideZipkinUriCustomizer() {
-	ZipkinRestTemplateCustomizer customizer = (RestTemplate restTemplate) -> {
-	    log.warn("Adding Zipkin endpoint override. All spans sent to endpoint '/api/v2/spans' will be sent to '/v1/trace' instead.");
-	    restTemplate.getInterceptors().add(new ZipkinToSignalFxUriInterceptor());
-	};
-	return customizer;
+        ZipkinRestTemplateCustomizer customizer = (RestTemplate restTemplate) -> {
+            log.warn("Adding Zipkin endpoint override. All spans sent to endpoint '/api/v2/spans' will be sent to '/v1/trace' instead.");
+            restTemplate.getInterceptors().add(new ZipkinToSignalFxUriInterceptor());
+        };
+        return customizer;
     }
 
 }

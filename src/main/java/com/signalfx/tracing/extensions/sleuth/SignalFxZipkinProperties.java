@@ -25,13 +25,13 @@ public class SignalFxZipkinProperties extends ZipkinProperties {
 
     @Override
     public String getBaseUrl() {
-	return baseUrl;
+        return baseUrl;
     }
 
     @Override
     public void setBaseUrl(String baseUrl) {
-	this.baseUrl = baseUrl;
+        this.baseUrl = baseUrl;
     }
-    
-   
+
+
 }

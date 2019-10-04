@@ -12,7 +12,7 @@ public class ZipkinToSignalFxUriInterceptor implements ClientHttpRequestIntercep
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-	return execution.execute(new SignalFxEndpointRewriteWrapper(request), body);
+        return execution.execute(new SignalFxEndpointRewriteWrapper(request), body);
     }
 
 }

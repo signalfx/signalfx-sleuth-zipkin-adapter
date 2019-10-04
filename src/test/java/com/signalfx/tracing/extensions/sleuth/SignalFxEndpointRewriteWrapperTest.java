@@ -18,29 +18,29 @@ public class SignalFxEndpointRewriteWrapperTest {
 
     @Mock 
     HttpRequest httpRequest;
-     
+
     @Test
     public void doesntAffectNonZipkinEndpoint() throws Exception {
-	validateEndpoints("/other/path","/other/path");
+        validateEndpoints("/other/path","/other/path");
     }
-    
+
     @Test
     public void rewritesZipkinEndpoint() throws Exception {
-	validateEndpoints("/api/v2/spans","/v1/trace");
+        validateEndpoints("/api/v2/spans","/v1/trace");
     }
-    
+
     protected void validateEndpoints(String inputPath, String expectedOutputPath) throws Exception {
-	
-	URI uri = new URI("http://localhost:8090" + inputPath);
-	when(httpRequest.getURI()).thenReturn(uri);
-	
-	SignalFxEndpointRewriteWrapper wrapper = new SignalFxEndpointRewriteWrapper(httpRequest);
-	
-	String path = wrapper.getURI().getPath();
-	
-	//The endpoint shouldn't be an affected
-	assertEquals(expectedOutputPath,path);
+
+        URI uri = new URI("http://localhost:8090" + inputPath);
+        when(httpRequest.getURI()).thenReturn(uri);
+
+        SignalFxEndpointRewriteWrapper wrapper = new SignalFxEndpointRewriteWrapper(httpRequest);
+
+        String path = wrapper.getURI().getPath();
+
+        //The endpoint shouldn't be an affected
+        assertEquals(expectedOutputPath,path);
     }
-    
-   
+
+
 }
