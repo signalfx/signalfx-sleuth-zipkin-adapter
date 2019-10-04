@@ -4,7 +4,7 @@ Zipkin formatted traces to the SignalFx Smart Agent or Smart Gateway.
 
 ## About
 
-Spring Cloud's [spring-cloud-sleuth-zipkin](https://github.com/spring-cloud/spring-cloud-sleuth/tree/1.3.x#sleuth-with-zipkin-via-http) 
+Spring Cloud's [spring-cloud-sleuth-zipkin](https://github.com/spring-cloud/spring-cloud-sleuth#sleuth-with-zipkin-via-http) 
 is an extension used to send Zipkin formatted spans/traces to a Zipkin server. 
 SignalFx Smart Agent and SignalFx Smart Gateway can both accept Zipkin 
 formatted spans. 
@@ -35,14 +35,14 @@ for recommended configuration.
 <dependency>
     <groupId>com.signalfx.public</groupId>
     <artifactId>signalfx-sleuth-zipkin-adapter</artifactId>
-    <version>1.0.1-RELEASE</version>
+    <version>2.0.1-RELEASE</version>
 </dependency>
 ```
 
 #### Gradle
 
 ```gradle
-classpath 'com.signalfx.public:signalfx-sleuth-zipkin-adapter'
+classpath 'com.signalfx.public:signalfx-sleuth-zipkin-adapter:2.0.1-RELEASE'
 ```
 
 ## Debugging
@@ -50,7 +50,7 @@ classpath 'com.signalfx.public:signalfx-sleuth-zipkin-adapter'
 This library will log an `INFO` level statement during instantiation, and output
 as part of Spring Boot Web startup, that reflects the http endpoint. An example: 
 ```
-INFO [Coin Flip - Sleuth,,,] 90272 --- [ost-startStop-1] c.s.uapm.sleuth.SignalFxZipkinReporter   : Registering Zipkin reporter for SignalFx endpoint: http://localhost:9080/v1/trace
+DEBUG Overriding Zipkin endpoint /api/v2/spans with /v1/trace
 ```
 
 This library will respect any `spring.zipkin.baseUrl` value configured in your

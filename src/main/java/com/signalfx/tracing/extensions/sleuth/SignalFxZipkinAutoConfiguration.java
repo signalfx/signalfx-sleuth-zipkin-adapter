@@ -1,34 +1,37 @@
 package com.signalfx.tracing.extensions.sleuth;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.sleuth.metric.SpanMetricReporter;
-import org.springframework.cloud.sleuth.zipkin.ZipkinSpanReporter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.cloud.sleuth.zipkin2.ZipkinAutoConfiguration;
+import org.springframework.cloud.sleuth.zipkin2.ZipkinRestTemplateCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.web.client.RestTemplate;
 
-@ConditionalOnProperty(value = { "spring.sleuth.enabled", "spring.zipkin.enabled" },
-    matchIfMissing = true)
-@EnableConfigurationProperties({SignalFxZipkinProperties.class})
+/**
+ * This configuration creates an interceptor for the <code>RestTemplate</code> repsonsible for 
+ * sending Spans to the <code>spring.zipkin.baseUrl</code>. It will replace any URI path 
+ * matching <code>/api/v2/spans</code> with <code>/v1/trace</code>.
+ * 
+ * This allows for the standard Zipkin configuration to be used.
+ * 
+ * @see <a href="https://cloud.spring.io/spring-cloud-sleuth/2.1.x/single/spring-cloud-sleuth.html#_sending_spans_to_zipkin">Sending spans to Zipkin</a>
+ * 
+ */
 @Configuration
+@AutoConfigureBefore(ZipkinAutoConfiguration.class)
 public class SignalFxZipkinAutoConfiguration {
 
-    /**
-     * This bean will override the default <code>ZipkinSpanReporter</code>, which will only send to the 
-     * <code>/api/v2/spans</code> endpoint. The <code>SignalFxZipkinReporter</code> will
-     * send to <code>/v1/trace</code> instead. 
-     * 
-     * @return ZipkinSpanReporter - Will be an instance of <code>SiganlFxZipkinReporter</code>
-     * @param spanMetricReporter - Auto-injected via Spring
-     * @param zipkin - @see <code>SignalFxZipkinProperties</code>
-     */
-    @Primary
-    @Bean
-    public ZipkinSpanReporter reporter(SpanMetricReporter spanMetricReporter, SignalFxZipkinProperties zipkin) {
-
-	return new SignalFxZipkinReporter(zipkin.getBaseUrl(), zipkin.getFlushInterval(),
-		zipkin.getCompression().isEnabled(), spanMetricReporter);
-    }
+    Logger log = LoggerFactory.getLogger(SignalFxZipkinAutoConfiguration.class);
     
+
+    @Bean ZipkinRestTemplateCustomizer overrideZipkinUriCustomizer() {
+	ZipkinRestTemplateCustomizer customizer = (RestTemplate restTemplate) -> {
+	    log.warn("Adding Zipkin endpoint override. All spans sent to endpoint '/api/v2/spans' will be sent to '/v1/trace' instead.");
+	    restTemplate.getInterceptors().add(new ZipkinToSignalFxUriInterceptor());
+	};
+	return customizer;
+    }
+
 }

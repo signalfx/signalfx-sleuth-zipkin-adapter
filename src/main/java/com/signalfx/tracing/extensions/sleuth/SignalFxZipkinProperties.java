@@ -1,7 +1,7 @@
 package com.signalfx.tracing.extensions.sleuth;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.sleuth.zipkin.ZipkinProperties;
+import org.springframework.cloud.sleuth.zipkin2.ZipkinProperties;
 
 /**
  * <p>
